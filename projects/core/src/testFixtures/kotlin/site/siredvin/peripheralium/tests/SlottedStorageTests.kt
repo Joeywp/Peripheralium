@@ -2,12 +2,14 @@ package site.siredvin.peripheralium.tests
 
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import site.siredvin.peripheralium.storages.item.AccessibleItemStorage
 import site.siredvin.peripheralium.storages.item.ItemStorageUtils
 import site.siredvin.peripheralium.storages.item.SlottedItemStorage
+import java.util.function.Predicate
 import kotlin.test.assertEquals
 
 abstract class SlottedStorageTests : StorageTests() {
@@ -89,6 +91,24 @@ abstract class SlottedStorageTests : StorageTests() {
                 ),
             )
         }
+    }
+
+    @Test
+    fun testMoveToSameStorage() {
+        val dirtBlock = ItemStack(Items.DIRT, 26)
+        val storage = createSlottedStorage(listOf(26, 0, 0, 0, 0, 0, 0, 0, 0), dirtBlock, false)
+        val movedAmount = storage.moveTo(storage, 64, fromSlot = 0, toSlot = 1, takePredicate = { true })
+        assertEquals(26, movedAmount)
+        StorageTestHelpers.assertSlottedStorage(storage, listOf(0, 26, 0, 0, 0, 0, 0, 0, 0), "storage")
+    }
+
+    @Test
+    fun testMoveToSameStorage2() {
+        val dirtBlock = ItemStack(Items.DIRT, 26)
+        val storage = createSlottedStorage(listOf(0, 26, 0, 0, 0, 0, 0, 0, 0), dirtBlock, false)
+        val movedAmount = storage.moveTo(storage, 64, fromSlot = 1, toSlot = 2, takePredicate = { true })
+        assertEquals(26, movedAmount)
+        StorageTestHelpers.assertSlottedStorage(storage, listOf(0, 0, 26, 0, 0, 0, 0, 0, 0), "storage")
     }
 
     @ParameterizedTest

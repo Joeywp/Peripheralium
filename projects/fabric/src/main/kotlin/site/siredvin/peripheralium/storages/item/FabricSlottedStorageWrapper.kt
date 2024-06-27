@@ -48,7 +48,7 @@ class FabricSlottedStorageWrapper(internal val storage: net.fabricmc.fabric.api.
             getSingleSlot(toSlot)
         }
         if (from is FabricSlottedStorageWrapper) {
-            if (fromSlot > 0) {
+            if (fromSlot > -1) {
                 val slotStorage = from.getSingleSlot(fromSlot)
                 return StorageUtil.move(
                     slotStorage,

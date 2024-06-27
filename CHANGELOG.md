@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Issue with item transfers related to fabric
+
 ## [0.6.15] - 2024-02-01
 
 ### Changed
