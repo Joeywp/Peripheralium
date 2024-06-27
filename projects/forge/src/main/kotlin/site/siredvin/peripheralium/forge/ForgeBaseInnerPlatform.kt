@@ -31,7 +31,7 @@ abstract class ForgeBaseInnerPlatform : BaseInnerPlatform {
         get() = null
     open val itemsRegistry: DeferredRegister<Item>?
         get() = null
-    open val blockEntityTypesRegistry: DeferredRegister<BlockEntityType<*>> ?
+    open val blockEntityTypesRegistry: DeferredRegister<BlockEntityType<*>>?
         get() = null
     open val creativeTabRegistry: DeferredRegister<CreativeModeTab>?
         get() = null

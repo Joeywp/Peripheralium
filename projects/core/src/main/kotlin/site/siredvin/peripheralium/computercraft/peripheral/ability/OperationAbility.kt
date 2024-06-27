@@ -131,7 +131,9 @@ class OperationAbility(private val owner: IPeripheralOwner, private val reduceRa
     }
 
     enum class FailReason {
-        COOLDOWN, NOT_ENOUGH_FUEL, CHECK_FAILED
+        COOLDOWN,
+        NOT_ENOUGH_FUEL,
+        CHECK_FAILED,
     }
 
     companion object {

@@ -4,7 +4,10 @@ import dan200.computercraft.api.lua.LuaException
 import java.util.stream.Collectors
 
 enum class InteractionMode {
-    ANY, ENTITY, BLOCK;
+    ANY,
+    ENTITY,
+    BLOCK,
+    ;
 
     val skipEntry: Boolean
         get() = this == BLOCK

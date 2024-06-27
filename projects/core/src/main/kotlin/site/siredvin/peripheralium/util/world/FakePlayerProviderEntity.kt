@@ -35,9 +35,23 @@ object FakePlayerProviderEntity {
         player.setServerLevel(realPlayer.level() as ServerLevel)
         val position = realPlayer.blockPosition()
         // Player position
-        val pitch: Float = if (direction == Direction.UP) -90f else if (direction == Direction.DOWN) 90f else 0f
+        val pitch: Float = if (direction == Direction.UP) {
+            -90f
+        } else if (direction == Direction.DOWN) {
+            90f
+        } else {
+            0f
+        }
         val yaw: Float =
-            if (direction == Direction.SOUTH) 0f else if (direction == Direction.WEST) 90f else if (direction == Direction.NORTH) 180f else -90f
+            if (direction == Direction.SOUTH) {
+                0f
+            } else if (direction == Direction.WEST) {
+                90f
+            } else if (direction == Direction.NORTH) {
+                180f
+            } else {
+                -90f
+            }
         val sideVec = direction.normal
         val a = direction.axis
         val ad = direction.axisDirection

@@ -11,15 +11,10 @@ import net.minecraft.world.level.block.Block
 import site.siredvin.peripheralium.util.itemTooltip
 
 open class DescriptiveBlockItem(block: Block, properties: Properties) : BlockItem(block, properties) {
-    private var _description: MutableComponent? = null
 
-    private val extraDescription: MutableComponent
-        get() {
-            if (_description == null) {
-                _description = itemTooltip(this.descriptionId)
-            }
-            return _description!!
-        }
+    private val extraDescription: MutableComponent by lazy {
+        return@lazy itemTooltip(this.descriptionId)
+    }
 
     override fun appendHoverText(
         itemStack: ItemStack,

@@ -6,7 +6,9 @@ import java.util.*
 import java.util.stream.Collectors
 
 enum class VerticalDirection(val minecraftDirection: Direction) {
-    UP(Direction.UP), DOWN(Direction.DOWN);
+    UP(Direction.UP),
+    DOWN(Direction.DOWN),
+    ;
 
     companion object {
         fun luaValueOf(name: String): VerticalDirection {

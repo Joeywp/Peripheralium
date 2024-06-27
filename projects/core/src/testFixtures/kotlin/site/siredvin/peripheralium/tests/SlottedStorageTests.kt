@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource
 import site.siredvin.peripheralium.storages.item.AccessibleItemStorage
 import site.siredvin.peripheralium.storages.item.ItemStorageUtils
 import site.siredvin.peripheralium.storages.item.SlottedItemStorage
-import java.util.function.Predicate
 import kotlin.test.assertEquals
 
 abstract class SlottedStorageTests : StorageTests() {

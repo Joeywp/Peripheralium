@@ -27,7 +27,9 @@ abstract class PeripheralBlockEntity<T : IOwnedPeripheral<*>>(
     protected var ownerPlayerUUID: UUID? = null
     override var player: Player?
         get() = ownerPlayerUUID?.let { level?.getPlayerByUUID(it) }
-        set(value) { ownerPlayerUUID = value?.uuid }
+        set(value) {
+            ownerPlayerUUID = value?.uuid
+        }
 
     val connectedComputers: List<IComputerAccess>
         get() = if (peripheral == null) emptyList() else peripheral!!.connectedComputers

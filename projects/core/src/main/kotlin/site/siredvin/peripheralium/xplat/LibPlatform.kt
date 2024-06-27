@@ -1,21 +1,21 @@
 package site.siredvin.peripheralium.xplat
 
 object LibPlatform : BasePlatform {
-    private var _IMPL: BaseInnerPlatform? = null
-    private val _informationTracker = ModInformationTracker()
+    private var impl: BaseInnerPlatform? = null
+    private val informationTracker = ModInformationTracker()
 
     fun configure(impl: BaseInnerPlatform) {
-        _IMPL = impl
+        this.impl = impl
     }
 
     override val baseInnerPlatform: BaseInnerPlatform
         get() {
-            if (_IMPL == null) {
+            if (impl == null) {
                 throw IllegalStateException("You should configure peripheralium LibPlatform first")
             }
-            return _IMPL!!
+            return impl!!
         }
 
     override val modInformationTracker: ModInformationTracker
-        get() = _informationTracker
+        get() = informationTracker
 }

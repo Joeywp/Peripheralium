@@ -6,17 +6,17 @@ import net.minecraft.world.level.block.state.BlockState
 
 interface XplatTags {
     companion object {
-        private var _IMPL: XplatTags? = null
+        private var impl: XplatTags? = null
 
         fun configure(impl: XplatTags) {
-            _IMPL = impl
+            this.impl = impl
         }
 
         fun get(): XplatTags {
-            if (_IMPL == null) {
+            if (impl == null) {
                 throw IllegalStateException("You should init Peripheral Platform first")
             }
-            return _IMPL!!
+            return impl!!
         }
 
         fun isOre(state: BlockState): Boolean {

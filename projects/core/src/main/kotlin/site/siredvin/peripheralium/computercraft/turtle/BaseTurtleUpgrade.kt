@@ -29,6 +29,10 @@ abstract class BaseTurtleUpgrade<T : IOwnedPeripheral<*>>(
 
     override fun createPeripheral(turtle: ITurtleAccess, side: TurtleSide): IPeripheral? {
         val peripheral = buildPeripheral(turtle, side)
-        return if (!peripheral.isEnabled) { DisabledPeripheral } else peripheral
+        return if (!peripheral.isEnabled) {
+            DisabledPeripheral
+        } else {
+            peripheral
+        }
     }
 }

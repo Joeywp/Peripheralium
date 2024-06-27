@@ -18,10 +18,10 @@ object PeripheralPluginUtils {
     }
 
     private object ItemQueryField {
-        const val name = "name"
-        const val displayName = "displayName"
-        const val tag = "tag"
-        const val nbt = "nbt"
+        const val NAME = "name"
+        const val DISPLAY_NAME = "displayName"
+        const val TAG = "tag"
+        const val NBT = "nbt"
     }
 
     private val ALWAYS_ITEM_STACK_TRUE: Predicate<ItemStack> = Predicate { true }
@@ -55,20 +55,20 @@ object PeripheralPluginUtils {
         if (something is String) {
             return builtItemNamePredicate(something)
         } else if (something is Map<*, *>) {
-            var aggregated_predicate = ALWAYS_ITEM_STACK_TRUE
-            if (something.contains(ItemQueryField.name)) {
-                aggregated_predicate = aggregated_predicate.and(builtItemNamePredicate(something[ItemQueryField.name].toString()))
+            var aggregatedPredicate = ALWAYS_ITEM_STACK_TRUE
+            if (something.contains(ItemQueryField.NAME)) {
+                aggregatedPredicate = aggregatedPredicate.and(builtItemNamePredicate(something[ItemQueryField.NAME].toString()))
             }
-            if (something.contains(ItemQueryField.displayName)) {
-                aggregated_predicate = aggregated_predicate.and(builtItemDisplayNamePredicate(something[ItemQueryField.displayName].toString()))
+            if (something.contains(ItemQueryField.DISPLAY_NAME)) {
+                aggregatedPredicate = aggregatedPredicate.and(builtItemDisplayNamePredicate(something[ItemQueryField.DISPLAY_NAME].toString()))
             }
-            if (something.contains(ItemQueryField.tag)) {
-                aggregated_predicate = aggregated_predicate.and(builtItemTagPredicate(something[ItemQueryField.tag].toString()))
+            if (something.contains(ItemQueryField.TAG)) {
+                aggregatedPredicate = aggregatedPredicate.and(builtItemTagPredicate(something[ItemQueryField.TAG].toString()))
             }
-            if (something.contains(ItemQueryField.nbt)) {
-                aggregated_predicate = aggregated_predicate.and(builtNBTPredicate(something[ItemQueryField.nbt].toString()))
+            if (something.contains(ItemQueryField.NBT)) {
+                aggregatedPredicate = aggregatedPredicate.and(builtNBTPredicate(something[ItemQueryField.NBT].toString()))
             }
-            return aggregated_predicate
+            return aggregatedPredicate
         }
         throw LuaException("Item query should be string or table")
     }

@@ -12,15 +12,10 @@ import java.util.function.Function
 import java.util.function.Supplier
 
 open class PeripheralBlockItem(block: Block, properties: Properties, private var enableSup: Supplier<Boolean>, private var alwaysShow: Boolean = false, private vararg val tooltipHook: Function<PeripheralBlockItem, List<Component>>) : DescriptiveBlockItem(block, properties) {
-    private var _tooltips: List<Component>? = null
 
-    private val tooltips: List<Component>
-        get() {
-            if (_tooltips == null) {
-                _tooltips = tooltipHook.flatMap { it.apply(this) }
-            }
-            return _tooltips!!
-        }
+    private val tooltips: List<Component> by lazy {
+        return@lazy tooltipHook.flatMap { it.apply(this) }
+    }
 
     override fun appendHoverText(
         itemStack: ItemStack,

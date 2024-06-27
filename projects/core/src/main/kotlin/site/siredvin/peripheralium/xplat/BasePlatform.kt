@@ -32,7 +32,7 @@ interface BasePlatform {
 
     fun <T : Item> registerItem(key: ResourceLocation, item: Supplier<T>): Supplier<T> {
         val registeredItem = baseInnerPlatform.registerItem(key, item)
-        modInformationTracker.ITEMS.add(registeredItem)
+        modInformationTracker.internalItems.add(registeredItem)
         return registeredItem
     }
 
@@ -47,7 +47,7 @@ interface BasePlatform {
     fun <T : Block> registerBlock(name: String, block: Supplier<T>, itemFactory: (T) -> (Item) = { DescriptiveBlockItem(it, Item.Properties()) }): Supplier<T> {
         val registeredBlock = baseInnerPlatform
             .registerBlock(ResourceLocation(baseInnerPlatform.modID, name), block, itemFactory)
-        modInformationTracker.BLOCKS.add(registeredBlock)
+        modInformationTracker.internalBlocks.add(registeredBlock)
         return registeredBlock
     }
 
@@ -89,7 +89,7 @@ interface BasePlatform {
     ): Supplier<TurtleUpgradeSerialiser<V>> {
         val registered = baseInnerPlatform.registerTurtleUpgrade(key, serializer)
         @Suppress("UNCHECKED_CAST")
-        modInformationTracker.TURTLE_UPGRADES.add(registered as Supplier<TurtleUpgradeSerialiser<out ITurtleUpgrade>>)
+        modInformationTracker.internalTurtleUpgrades.add(registered as Supplier<TurtleUpgradeSerialiser<out ITurtleUpgrade>>)
         return registered
     }
 
@@ -106,13 +106,13 @@ interface BasePlatform {
     ): Supplier<PocketUpgradeSerialiser<V>> {
         val registered = baseInnerPlatform.registerPocketUpgrade(key, serializer)
         @Suppress("UNCHECKED_CAST")
-        modInformationTracker.POCKET_UPGRADES.add(registered as Supplier<PocketUpgradeSerialiser<out IPocketUpgrade>>)
+        modInformationTracker.internalPocketUpgrades.add(registered as Supplier<PocketUpgradeSerialiser<out IPocketUpgrade>>)
         return registered
     }
 
     fun registerCustomStat(id: ResourceLocation, formatter: StatFormatter = StatFormatter.DEFAULT): Supplier<Stat<ResourceLocation>> {
         val registered = baseInnerPlatform.registerCustomStat(id, formatter)
-        modInformationTracker.CUSTOM_STATS.add(registered)
+        modInformationTracker.internalCustomStats.add(registered)
         return registered
     }
 

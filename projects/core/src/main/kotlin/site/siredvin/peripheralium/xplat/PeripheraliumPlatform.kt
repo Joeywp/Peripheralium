@@ -39,18 +39,18 @@ import java.util.function.Predicate
 
 interface PeripheraliumPlatform {
     companion object {
-        private var _IMPL: PeripheraliumPlatform? = null
+        private var impl: PeripheraliumPlatform? = null
         private var genericLookupRegistered = false
 
         fun configure(impl: PeripheraliumPlatform) {
-            _IMPL = impl
+            this.impl = impl
         }
 
         fun get(): PeripheraliumPlatform {
-            if (_IMPL == null) {
+            if (impl == null) {
                 throw IllegalStateException("You should init Peripheral Platform first")
             }
-            return _IMPL!!
+            return impl!!
         }
 
         val fluidCompactDivider: Int

@@ -4,7 +4,9 @@ import dan200.computercraft.api.lua.LuaException
 import java.util.stream.Collectors
 
 enum class TransformInteractionMode {
-    INVENTORY, BLOCK;
+    INVENTORY,
+    BLOCK,
+    ;
 
     companion object {
         fun luaValueOf(name: String): TransformInteractionMode {

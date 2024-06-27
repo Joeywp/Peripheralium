@@ -19,7 +19,7 @@ class PocketFuelAbility(owner: PocketPeripheralOwner, private val foodFuelPrice:
         }
     }
 
-    override fun _consumeFuel(count: Int): Boolean {
+    override fun consumeFuelInternal(count: Int): Boolean {
         val foodData = owner.owner?.foodData ?: return false
         if (fuelCount < count) {
             return false

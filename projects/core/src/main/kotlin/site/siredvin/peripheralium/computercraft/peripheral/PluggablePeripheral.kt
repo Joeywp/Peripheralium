@@ -19,16 +19,16 @@ import java.util.concurrent.locks.ReentrantLock
 import java.util.function.Consumer
 
 open class PluggablePeripheral<T>(protected val peripheralType: String, protected val peripheralTarget: T?) : IDynamicPeripheral, IPluggablePeripheral {
-    protected val _connectedComputers: MutableList<IComputerAccess> = mutableListOf()
+    protected val internalConnectedComputers: MutableList<IComputerAccess> = mutableListOf()
     protected var initialized = false
     protected val pluggedMethods: MutableList<BoundMethod> = mutableListOf()
     protected var plugins: MutableList<IPeripheralPlugin>? = null
-    protected var _methodNames = Array(0) { "" }
+    protected var internalMethodNames = Array(0) { "" }
     protected var additionalTypeStorage: MutableSet<String>? = null
     protected var connectedComputersLock: ReentrantLock = ReentrantLock()
 
     val connectedComputers: List<IComputerAccess>
-        get() = _connectedComputers
+        get() = internalConnectedComputers
 
     protected fun initAdditionalTypeStorage() {
         additionalTypeStorage = mutableSetOf()
@@ -64,7 +64,7 @@ open class PluggablePeripheral<T>(protected val peripheralType: String, protecte
                 additionalTypeStorage?.clear()
             }
             collectPluginMethods(PeripheraliumPlatform.minecraftServer!!)
-            _methodNames = pluggedMethods.stream().map { obj: BoundMethod -> obj.name }.toArray { size -> Array(size) { "" } }
+            internalMethodNames = pluggedMethods.stream().map { obj: BoundMethod -> obj.name }.toArray { size -> Array(size) { "" } }
         }
     }
 
@@ -78,8 +78,8 @@ open class PluggablePeripheral<T>(protected val peripheralType: String, protecte
 
     override fun attach(computer: IComputerAccess) {
         connectedComputersLock.withLock {
-            _connectedComputers.add(computer)
-            if (_connectedComputers.size == 1 && plugins != null) {
+            internalConnectedComputers.add(computer)
+            if (internalConnectedComputers.size == 1 && plugins != null) {
                 plugins!!.forEach {
                     if (it is IObservingPeripheralPlugin) {
                         it.onFirstAttach()
@@ -91,8 +91,8 @@ open class PluggablePeripheral<T>(protected val peripheralType: String, protecte
 
     override fun detach(computer: IComputerAccess) {
         connectedComputersLock.withLock {
-            _connectedComputers.remove(computer)
-            if (_connectedComputers.isEmpty() && plugins != null) {
+            internalConnectedComputers.remove(computer)
+            if (internalConnectedComputers.isEmpty() && plugins != null) {
                 plugins!!.forEach {
                     if (it is IObservingPeripheralPlugin) {
                         it.onLastDetach()
@@ -104,18 +104,18 @@ open class PluggablePeripheral<T>(protected val peripheralType: String, protecte
 
     override fun forEachComputer(func: Consumer<IComputerAccess>) {
         connectedComputersLock.withLock {
-            _connectedComputers.forEach { func.accept(it) }
+            internalConnectedComputers.forEach { func.accept(it) }
         }
     }
 
     override fun isComputerPresent(computerID: Int): Boolean {
         connectedComputersLock.withLock {
-            return _connectedComputers.any { it.id == computerID }
+            return internalConnectedComputers.any { it.id == computerID }
         }
     }
 
     override val connectedComputersCount: Int
-        get() = connectedComputersLock.withLock { return _connectedComputers.size }
+        get() = connectedComputersLock.withLock { return internalConnectedComputers.size }
 
     open fun equals(other: PluggablePeripheral<*>): Boolean {
         if (peripheralTarget != other.peripheralTarget || peripheralType != other.peripheralType) return false
@@ -143,7 +143,7 @@ open class PluggablePeripheral<T>(protected val peripheralType: String, protecte
         if (!initialized) {
             buildPlugins()
         }
-        return _methodNames
+        return internalMethodNames
     }
 
     override fun getAdditionalTypes(): Set<String> {

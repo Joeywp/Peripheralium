@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty
 import site.siredvin.peripheralium.util.BlockUtil
 import java.util.function.Supplier
 
-open class FacingBlockEntityBlock<T : BlockEntity> (
+open class FacingBlockEntityBlock<T : BlockEntity>(
     private val blockEntityTypeSup: Supplier<BlockEntityType<T>>,
     private val isRotatable: Boolean,
     belongToTickingEntity: Boolean = false,

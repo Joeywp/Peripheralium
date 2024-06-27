@@ -10,7 +10,7 @@ import site.siredvin.peripheralium.xplat.*
 object PeripheraliumCore {
     const val MOD_ID = "peripheralium"
 
-    var LOGGER: Logger = LogManager.getLogger(MOD_ID)
+    val LOGGER: Logger = LogManager.getLogger(MOD_ID)
 
     fun configureCreativeTab(builder: CreativeModeTab.Builder): CreativeModeTab.Builder {
         return builder.icon { Items.PERIPHERALIUM_DUST.get().defaultInstance }

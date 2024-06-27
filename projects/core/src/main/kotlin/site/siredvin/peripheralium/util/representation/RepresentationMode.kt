@@ -7,5 +7,7 @@ package site.siredvin.peripheralium.util.representation
  * FULL - every piece of information, including NBT and internal information
  */
 enum class RepresentationMode {
-    BASE, DETAILED, FULL
+    BASE,
+    DETAILED,
+    FULL,
 }

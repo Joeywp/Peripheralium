@@ -7,20 +7,20 @@ import site.siredvin.peripheralium.api.peripheral.IPeripheralOwner
 import site.siredvin.peripheralium.api.peripheral.IPeripheralPlugin
 
 abstract class FuelAbility<T : IPeripheralOwner>(protected var owner: T) : IOwnerAbility, IPeripheralPlugin {
-    protected abstract fun _consumeFuel(count: Int): Boolean
+    protected abstract fun consumeFuelInternal(count: Int): Boolean
     protected abstract val maxFuelConsumptionRate: Int
-    protected fun _getFuelConsumptionRate(): Int {
+    protected fun getFuelConsumptionRateInternal(): Int {
         val settings = owner.dataStorage
         val rate = settings.getInt(FUEL_CONSUMING_RATE_SETTING)
         if (rate == 0) {
-            _setFuelConsumptionRate(DEFAULT_FUEL_CONSUMING_RATE)
+            setFuelConsumptionRateInternal(DEFAULT_FUEL_CONSUMING_RATE)
             return DEFAULT_FUEL_CONSUMING_RATE
         }
         return rate
     }
 
-    protected fun _setFuelConsumptionRate(raw_rate: Int) {
-        var rate = raw_rate
+    protected fun setFuelConsumptionRateInternal(rawRate: Int) {
+        var rate = rawRate
         if (rate < DEFAULT_FUEL_CONSUMING_RATE) rate = DEFAULT_FUEL_CONSUMING_RATE
         val maxFuelRate = maxFuelConsumptionRate
         if (rate > maxFuelRate) rate = maxFuelRate
@@ -32,16 +32,16 @@ abstract class FuelAbility<T : IPeripheralOwner>(protected var owner: T) : IOwne
     abstract val fuelMaxCount: Int
     abstract fun addFuel(count: Int)
     val fuelConsumptionMultiply: Int
-        get() = Math.pow(2.0, (_getFuelConsumptionRate() - 1).toDouble()).toInt()
+        get() = Math.pow(2.0, (getFuelConsumptionRateInternal() - 1).toDouble()).toInt()
 
     fun reduceCooldownAccordingToConsumptionRate(cooldown: Int): Int {
-        return cooldown / _getFuelConsumptionRate()
+        return cooldown / getFuelConsumptionRateInternal()
     }
 
     fun consumeFuel(count: Int, simulate: Boolean): Boolean {
         if (isFuelConsumptionDisable) return true
         val realCount = count * fuelConsumptionMultiply
-        return if (simulate) fuelLevel >= realCount else _consumeFuel(realCount)
+        return if (simulate) fuelLevel >= realCount else consumeFuelInternal(realCount)
     }
 
     @get:LuaFunction(mainThread = true)
@@ -54,13 +54,13 @@ abstract class FuelAbility<T : IPeripheralOwner>(protected var owner: T) : IOwne
 
     @get:LuaFunction(mainThread = true)
     val fuelConsumptionRate: Int
-        get() = _getFuelConsumptionRate()
+        get() = getFuelConsumptionRateInternal()
 
     @LuaFunction(mainThread = true)
     fun setFuelConsumptionRate(rate: Int): MethodResult {
         if (rate < 1) return MethodResult.of(null, "Too small fuel consumption rate")
         if (rate > maxFuelConsumptionRate) return MethodResult.of(null, "Too big fuel consumption rate")
-        _setFuelConsumptionRate(rate)
+        setFuelConsumptionRateInternal(rate)
         return MethodResult.of(true)
     }
 

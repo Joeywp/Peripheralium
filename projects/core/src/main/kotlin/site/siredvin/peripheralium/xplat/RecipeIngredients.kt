@@ -4,17 +4,17 @@ import net.minecraft.world.item.crafting.Ingredient
 
 interface RecipeIngredients {
     companion object {
-        private var _IMPL: RecipeIngredients? = null
+        private var impl: RecipeIngredients? = null
 
         fun configure(impl: RecipeIngredients) {
-            _IMPL = impl
+            this.impl = impl
         }
 
         fun get(): RecipeIngredients {
-            if (_IMPL == null) {
+            if (impl == null) {
                 throw IllegalStateException("You should init recipe ingredients first")
             }
-            return _IMPL!!
+            return impl!!
         }
     }
 

@@ -12,20 +12,21 @@ import site.siredvin.peripheralium.data.language.ModInformationHolder
 import java.util.function.Supplier
 
 class ModInformationTracker : ModInformationHolder {
-    val ITEMS: MutableList<Supplier<out Item>> = mutableListOf()
-    val BLOCKS: MutableList<Supplier<out Block>> = mutableListOf()
-    val POCKET_UPGRADES: MutableList<Supplier<PocketUpgradeSerialiser<out IPocketUpgrade>>> = mutableListOf()
-    val TURTLE_UPGRADES: MutableList<Supplier<TurtleUpgradeSerialiser<out ITurtleUpgrade>>> = mutableListOf()
-    val CUSTOM_STATS: MutableList<Supplier<Stat<ResourceLocation>>> = mutableListOf()
+
+    val internalItems: MutableList<Supplier<out Item>> = mutableListOf()
+    val internalBlocks: MutableList<Supplier<out Block>> = mutableListOf()
+    val internalPocketUpgrades: MutableList<Supplier<PocketUpgradeSerialiser<out IPocketUpgrade>>> = mutableListOf()
+    val internalTurtleUpgrades: MutableList<Supplier<TurtleUpgradeSerialiser<out ITurtleUpgrade>>> = mutableListOf()
+    val internalCustomStats: MutableList<Supplier<Stat<ResourceLocation>>> = mutableListOf()
 
     override val items: List<Supplier<out Item>>
-        get() = ITEMS
+        get() = internalItems
     override val blocks: List<Supplier<out Block>>
-        get() = BLOCKS
+        get() = internalBlocks
     override val pocketSerializers: List<Supplier<PocketUpgradeSerialiser<out IPocketUpgrade>>>
-        get() = POCKET_UPGRADES
+        get() = internalPocketUpgrades
     override val turtleSerializers: List<Supplier<TurtleUpgradeSerialiser<out ITurtleUpgrade>>>
-        get() = TURTLE_UPGRADES
+        get() = internalTurtleUpgrades
     override val customStats: List<Supplier<Stat<ResourceLocation>>>
-        get() = CUSTOM_STATS
+        get() = internalCustomStats
 }
