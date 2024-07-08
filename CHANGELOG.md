@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Issue with item transfers related to fabric
+- Usage of AW for fabric to access horse inventory correctly
 
 ## [0.6.15] - 2024-02-01
 
