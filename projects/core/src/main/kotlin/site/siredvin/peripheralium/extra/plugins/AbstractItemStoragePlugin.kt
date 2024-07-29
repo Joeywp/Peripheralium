@@ -23,7 +23,7 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
     override val additionalType: String
         get() = PeripheralPluginUtils.Type.ITEM_STORAGE
 
-    open fun itemsImpl(mode: RepresentationMode): List<MutableMap<String, *>> {
+    open fun itemsImpl(mode: RepresentationMode = RepresentationMode.DETAILED): List<MutableMap<String, *>> {
         val result: MutableList<MutableMap<String, *>> = mutableListOf()
         storage.getItems().forEach {
             if (!it.isEmpty) {
@@ -35,7 +35,7 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
 
     @LuaFunction(mainThread = true)
     fun items(): List<Map<String, *>> {
-        return itemsImpl(RepresentationMode.DETAILED)
+        return itemsImpl()
     }
 
     @LuaFunction(mainThread = true)
