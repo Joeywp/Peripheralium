@@ -10,6 +10,7 @@ import site.siredvin.peripheralium.api.peripheral.IPeripheralPlugin
 import site.siredvin.peripheralium.storages.item.ItemStorage
 import site.siredvin.peripheralium.storages.item.ItemStorageExtractor
 import site.siredvin.peripheralium.util.representation.LuaRepresentation
+import site.siredvin.peripheralium.util.representation.RepresentationMode
 import java.util.*
 import java.util.function.Predicate
 import kotlin.math.min
@@ -22,11 +23,11 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
     override val additionalType: String
         get() = PeripheralPluginUtils.Type.ITEM_STORAGE
 
-    open fun itemsImpl(): List<MutableMap<String, *>> {
+    open fun itemsImpl(mode: RepresentationMode = RepresentationMode.DETAILED): List<MutableMap<String, *>> {
         val result: MutableList<MutableMap<String, *>> = mutableListOf()
         storage.getItems().forEach {
             if (!it.isEmpty) {
-                result.add(LuaRepresentation.forItemStack(it))
+                result.add(LuaRepresentation.forItemStack(it, mode))
             }
         }
         return result
@@ -35,6 +36,18 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
     @LuaFunction(mainThread = true)
     fun items(): List<Map<String, *>> {
         return itemsImpl()
+    }
+
+    @LuaFunction(mainThread = true)
+    fun itemsModed(mode: String? = null): List<Map<String, *>> {
+        return itemsImpl(
+            when (mode) {
+                "base" -> RepresentationMode.BASE
+                "detailed" -> RepresentationMode.DETAILED
+                "full" -> RepresentationMode.FULL
+                else -> RepresentationMode.DETAILED
+            }
+        )
     }
 
     @LuaFunction(mainThread = true)
