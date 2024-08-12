@@ -7,7 +7,6 @@ import dan200.computercraft.api.peripheral.IComputerAccess
 import dan200.computercraft.api.peripheral.IPeripheral
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import site.siredvin.peripheralium.api.datatypes.VerticalDirection
 import site.siredvin.peripheralium.api.peripheral.IPeripheralPlugin
 import site.siredvin.peripheralium.storages.item.ItemStorage
 import site.siredvin.peripheralium.storages.item.ItemStorageExtractor
@@ -15,7 +14,6 @@ import site.siredvin.peripheralium.util.representation.LuaRepresentation
 import site.siredvin.peripheralium.util.representation.RepresentationMode
 import java.util.*
 import java.util.function.Predicate
-import java.util.stream.Collectors
 import kotlin.math.min
 
 abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
@@ -39,7 +37,7 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
     @LuaFunction(mainThread = true)
     fun items(arguments: IArguments): List<Map<String, *>> {
         val isDetailed = arguments.optBoolean(0, true)
-        return itemsImpl(mode = if(isDetailed)  RepresentationMode.DETAILED else RepresentationMode.BASE)
+        return itemsImpl(mode = if (isDetailed) RepresentationMode.DETAILED else RepresentationMode.BASE)
     }
 
     @LuaFunction(mainThread = true)
