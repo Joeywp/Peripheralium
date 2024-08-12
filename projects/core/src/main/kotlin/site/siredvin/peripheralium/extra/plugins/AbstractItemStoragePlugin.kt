@@ -1,11 +1,13 @@
 package site.siredvin.peripheralium.extra.plugins
 
+import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaException
 import dan200.computercraft.api.lua.LuaFunction
 import dan200.computercraft.api.peripheral.IComputerAccess
 import dan200.computercraft.api.peripheral.IPeripheral
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import site.siredvin.peripheralium.api.datatypes.VerticalDirection
 import site.siredvin.peripheralium.api.peripheral.IPeripheralPlugin
 import site.siredvin.peripheralium.storages.item.ItemStorage
 import site.siredvin.peripheralium.storages.item.ItemStorageExtractor
@@ -13,6 +15,7 @@ import site.siredvin.peripheralium.util.representation.LuaRepresentation
 import site.siredvin.peripheralium.util.representation.RepresentationMode
 import java.util.*
 import java.util.function.Predicate
+import java.util.stream.Collectors
 import kotlin.math.min
 
 abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
@@ -34,20 +37,9 @@ abstract class AbstractItemStoragePlugin : IPeripheralPlugin {
     }
 
     @LuaFunction(mainThread = true)
-    fun items(): List<Map<String, *>> {
-        return itemsImpl()
-    }
-
-    @LuaFunction(mainThread = true)
-    fun itemsModed(mode: String? = null): List<Map<String, *>> {
-        return itemsImpl(
-            when (mode) {
-                "base" -> RepresentationMode.BASE
-                "detailed" -> RepresentationMode.DETAILED
-                "full" -> RepresentationMode.FULL
-                else -> RepresentationMode.DETAILED
-            }
-        )
+    fun items(arguments: IArguments): List<Map<String, *>> {
+        val isDetailed = arguments.optBoolean(0, true)
+        return itemsImpl(mode = if(isDetailed)  RepresentationMode.DETAILED else RepresentationMode.BASE)
     }
 
     @LuaFunction(mainThread = true)
