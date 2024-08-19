@@ -16,7 +16,7 @@ import site.siredvin.peripheralium.util.DataStorageUtil
 import site.siredvin.peripheralium.util.world.FakePlayerProviderPocket
 import site.siredvin.peripheralium.util.world.FakePlayerProxy
 
-class PocketPeripheralOwner(val pocket: IPocketAccess) : BasePeripheralOwner() {
+open class PocketPeripheralOwner(val pocket: IPocketAccess) : BasePeripheralOwner() {
     override val level: Level?
         get() {
             val owner = pocket.entity ?: return null

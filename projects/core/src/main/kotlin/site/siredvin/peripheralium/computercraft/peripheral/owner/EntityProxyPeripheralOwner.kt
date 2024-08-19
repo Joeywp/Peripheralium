@@ -21,7 +21,7 @@ import site.siredvin.peripheralium.util.DataStorageUtil
 import site.siredvin.peripheralium.util.world.FakePlayerProviderEntity
 import site.siredvin.peripheralium.util.world.FakePlayerProxy
 
-class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entity: Entity) :
+open class EntityProxyPeripheralOwner<T>(protected val blockEntity: T, protected val entity: Entity) :
     BasePeripheralOwner() where T : BlockEntity, T : IPeripheralTileEntity {
     override val level: Level
         get() = entity.level()
@@ -30,15 +30,15 @@ class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entit
     override val facing: Direction
         get() = Direction.fromYRot(entity.yRot.toDouble())
     override val owner: Player?
-        get() = (tileEntity as? IOwnedBlockEntity)?.player
+        get() = (blockEntity as? IOwnedBlockEntity)?.player
     override val dataStorage: CompoundTag
-        get() = DataStorageUtil.getDataStorage(tileEntity)
+        get() = DataStorageUtil.getDataStorage(blockEntity)
     override val storage: SlottedItemStorage? by lazy {
         ItemStorageExtractor.extractStorage(entity.level(), entity) as? SlottedItemStorage
     }
 
     override fun markDataStorageDirty() {
-        tileEntity.setChanged()
+        blockEntity.setChanged()
     }
 
     override fun <T> withPlayer(
@@ -46,10 +46,10 @@ class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entit
         overwrittenDirection: Direction?,
         skipInventory: Boolean,
     ): T {
-        if (tileEntity !is IOwnedBlockEntity) {
+        if (blockEntity !is IOwnedBlockEntity) {
             throw IllegalArgumentException("Cannot perform player logic without owned block entity")
         }
-        val player = tileEntity.player as? ServerPlayer ?: throw LuaException("Cannot correctly find player")
+        val player = blockEntity.player as? ServerPlayer ?: throw LuaException("Cannot correctly find player")
         return FakePlayerProviderEntity.withPlayer(entity, player, function, overwrittenDirection = overwrittenDirection, skipInventory = skipInventory)
     }
 
@@ -64,7 +64,7 @@ class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entit
     }
 
     override fun destroyUpgrade() {
-        level.removeBlock(tileEntity.blockPos, false)
+        level.removeBlock(blockEntity.blockPos, false)
     }
 
     override fun isMovementPossible(level: Level, pos: BlockPos): Boolean {
@@ -88,7 +88,7 @@ class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entit
     }
 
     override fun hashCode(): Int {
-        var result = tileEntity.hashCode()
+        var result = blockEntity.hashCode()
         result = 31 * result + entity.hashCode()
         return result
     }
@@ -98,7 +98,7 @@ class EntityProxyPeripheralOwner<T>(private val tileEntity: T, private val entit
         if (other !is EntityProxyPeripheralOwner<*>) return false
         if (!super.equals(other)) return false
 
-        if (tileEntity != other.tileEntity) return false
+        if (blockEntity != other.blockEntity) return false
         if (entity != other.entity) return false
 
         return true

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking internal change
+
+- No more Pluggable Peripheral, no more (I hope) peripheral invalidation issues
+
 ### Added
 
 - Ability to retrieve only base information from storages

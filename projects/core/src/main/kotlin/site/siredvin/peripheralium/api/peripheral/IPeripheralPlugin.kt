@@ -5,7 +5,7 @@ import net.minecraft.server.MinecraftServer
 import site.siredvin.peripheralium.computercraft.peripheral.BoundMethod
 
 interface IPeripheralPlugin {
-    var connectedPeripheral: IPluggablePeripheral?
+    var connectedPeripheral: IExpandedPeripheral?
         get() = null
         set(@Suppress("UNUSED_PARAMETER") value) {}
 

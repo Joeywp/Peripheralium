@@ -10,6 +10,7 @@ import site.siredvin.peripheralium.computercraft.peripheral.ability.PeripheralOw
 abstract class BasePeripheralOwner : IPeripheralOwner {
     private val _abilities: MutableMap<IPeripheralOwnerAbility<*>, IOwnerAbility>
 
+    // TODO: actually, rework Peripheral Owner framework to avoid runtime exception in case for moving, for example
     init {
         _abilities = HashMap()
     }

@@ -17,7 +17,7 @@ import site.siredvin.peripheralium.util.DataStorageUtil
 import site.siredvin.peripheralium.util.world.FakePlayerProviderTurtle
 import site.siredvin.peripheralium.util.world.FakePlayerProxy
 
-class TurtlePeripheralOwner(val turtle: ITurtleAccess, val side: TurtleSide) : BasePeripheralOwner() {
+open class TurtlePeripheralOwner(val turtle: ITurtleAccess, val side: TurtleSide) : BasePeripheralOwner() {
 
     override val level: Level?
         get() = turtle.level
