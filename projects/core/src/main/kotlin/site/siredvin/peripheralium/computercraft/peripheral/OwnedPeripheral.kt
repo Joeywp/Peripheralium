@@ -152,6 +152,10 @@ abstract class OwnedPeripheral<O : IPeripheralOwner>(protected open val peripher
         return peripheralType
     }
 
+    override fun getTarget(): Any? {
+        return peripheralOwner.targetRepresentation
+    }
+
     @Throws(LuaException::class)
     override fun callMethod(
         access: IComputerAccess,
